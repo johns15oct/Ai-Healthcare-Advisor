@@ -1,10 +1,14 @@
 import { useState } from "react";
 import { askGemini } from "../gemini";
+import { addDoc, collection, serverTimestamp } from "firebase/firestore";
+import { db } from "../firebase";
+import { useAuth } from "../context/AuthContext";
 
 export default function AIChat() {
   const [input, setInput] = useState("");
   const [response, setResponse] = useState("");
   const [loading, setLoading] = useState(false);
+  const { user } = useAuth();
 
   const send = async () => {
     if (!input.trim()) return;
@@ -12,11 +16,23 @@ export default function AIChat() {
     setLoading(true);
 
     try {
-      const result = await askGemini(input);
-      setResponse(result);
-    } catch {
-      setResponse("Something went wrong.");
-    }
+  const result = await askGemini(input);
+  console.log(user);
+  setResponse(result);
+
+  if (user && !user.isGuest) {
+    await addDoc(
+      collection(db, "users", user.email!, "chats"),
+      {
+        question: input,
+        answer: result,
+        createdAt: serverTimestamp(),
+      }
+    );
+  }
+} catch {
+  setResponse("Something went wrong.");
+}
 
     setLoading(false);
   };

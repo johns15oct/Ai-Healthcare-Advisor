@@ -183,7 +183,12 @@ className="flex items-center gap-2 bg-emerald-500 hover:bg-emerald-600 text-whit
                           type="number"
                           step={field === "weight" ? "0.1" : "1"}
                           value={editForm[field]}
-                          onChange={(e) => setEditForm({ ...editForm, [field]: +e.target.value })}
+                          onChange={(e) =>
+                            setEditForm({
+                              ...editForm,
+                              [field]: Number(e.target.value),
+                            })
+                          }
                           className="w-20 px-2 py-1.5 bg-slate-900 border border-slate-700 bg-slate-800 text-slate-300 rounded-lg text-xs"
                         />
                       </td>
