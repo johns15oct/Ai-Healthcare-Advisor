@@ -46,17 +46,17 @@ function sugarStatus(s: number): Status {
 
 const statusStyles: Record<Status, { card: string; badge: string; dot: string }> = {
   green: {
-    card: "border-green-200 bg-white",
+    card: "border-green-500/30 bg-slate-900",
     badge: "bg-green-100 text-green-700",
     dot: "bg-green-500",
   },
   yellow: {
-    card: "border-amber-200 bg-white",
+    card: "border-amber-500/30 bg-slate-900",
     badge: "bg-amber-100 text-amber-700",
     dot: "bg-amber-500",
   },
   red: {
-    card: "border-red-200 bg-white",
+    card: "border-red-500/30 bg-slate-900",
     badge: "bg-red-100 text-red-700",
     dot: "bg-red-500",
   },
@@ -172,7 +172,7 @@ export default function Dashboard() {
   ) : 0;
 
   return (
-    <div className="mx-auto max-w-[1180px] space-y-4">
+    <div className="mx-auto max-w-[1180px] space-y-4 bg-slate-950 min-h-screen p-4">
       {/* Header */}
       <div className="flex items-center justify-between">
         <div>
@@ -193,9 +193,9 @@ export default function Dashboard() {
       {error && <div className="rounded-lg border border-red-200 bg-red-50 px-3 py-2 text-[10px] text-red-700">{error}</div>}
 
       {loading ? (
-        <div className="grid min-h-64 place-items-center rounded-xl border border-border bg-white text-xs text-muted-foreground">Loading your Firebase readings...</div>
+        <div className="grid min-h-64 place-items-center rounded-xl border border-border bg-slate-900 text-white text-xs text-muted-foreground">Loading your Firebase readings...</div>
       ) : !latest ? (
-        <div className="flex min-h-72 flex-col items-center justify-center rounded-xl border border-dashed border-primary/30 bg-white px-6 text-center">
+        <div className="flex min-h-72 flex-col items-center justify-center rounded-xl border border-dashed border-primary/30 bg-slate-900 text-white px-6 text-center">
           <Activity size={28} className="mb-3 text-primary" />
           <h3 className="text-sm font-semibold">No health readings yet</h3>
           <p className="mt-1 max-w-sm text-[10px] leading-relaxed text-muted-foreground">Add your weight, height, blood pressure and blood sugar. The dashboard and graph will use only your saved Firebase data.</p>
@@ -239,7 +239,7 @@ export default function Dashboard() {
       </div>
 
       <div className="grid gap-3 lg:grid-cols-[minmax(0,2fr)_minmax(250px,0.8fr)]">
-        <div className="rounded-xl border border-border bg-white">
+        <div className="rounded-xl border border-slate-700 bg-slate-900 text-white">
           <div className="flex flex-col justify-between gap-3 border-b border-border px-4 py-3 sm:flex-row sm:items-center">
             <div>
               <h3 className="text-[12px] font-semibold text-foreground">Vital signs trend</h3>
@@ -250,7 +250,7 @@ export default function Dashboard() {
                 <button
                   key={line.key}
                   onClick={() => setVisible((current) => ({ ...current, [line.key]: !current[line.key] }))}
-                  className={`flex items-center gap-1.5 rounded-md border px-2 py-1 text-[9px] font-medium ${visible[line.key] ? "border-border bg-white" : "border-transparent bg-muted text-muted-foreground"}`}
+                  className={`flex items-center gap-1.5 rounded-md border px-2 py-1 text-[9px] font-medium ${visible[line.key] ? "border-border bg-slate-700" : "border-transparent bg-slate-800 text-muted-foreground"}`}
                 >
                   <span className="h-1.5 w-1.5 rounded-full" style={{ backgroundColor: visible[line.key] ? line.color : "#cbd5d1" }} />
                   {line.label.split(" ")[0]}
@@ -273,7 +273,7 @@ export default function Dashboard() {
           </div>
         </div>
 
-        <div className="overflow-hidden rounded-xl border border-border bg-white">
+        <div className="overflow-hidden rounded-xl border border-slate-700 bg-slate-900 text-white">
           <div className="border-b border-border px-4 py-3">
             <h3 className="text-[12px] font-semibold">Cardiovascular summary</h3>
             <p className="text-[9px] text-muted-foreground">Based on your latest reading</p>
@@ -302,7 +302,7 @@ export default function Dashboard() {
       {/* Add Reading Modal */}
       {modalOpen && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 backdrop-blur-sm p-4">
-          <div className="bg-white rounded-2xl shadow-2xl w-full max-w-md p-6">
+          <div className="bg-slate-900 text-white rounded-2xl shadow-2xl w-full max-w-md p-6">
             <div className="flex items-center justify-between mb-5">
               <h3 className="font-bold text-foreground text-lg">Add New Reading</h3>
               <button
@@ -321,7 +321,7 @@ export default function Dashboard() {
                     type="date"
                     value={form.date}
                     onChange={(e) => setForm({ ...form, date: e.target.value })}
-                    className="w-full px-3 py-2.5 bg-input-background border border-border rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary"
+                    className="w-full px-3 py-2.5 bg-slate-800 border border-slate-700 rounded-xl text-sm text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-emerald-500"
                   />
                 </div>
                 <div>
@@ -333,7 +333,7 @@ export default function Dashboard() {
                     min="1"
                     value={Number.isFinite(form.weight) ? form.weight : ""}
                     onChange={(e) => setForm({ ...form, weight: +e.target.value })}
-                    className="w-full px-3 py-2.5 bg-input-background border border-border rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary"
+                    className="w-full px-3 py-2.5 bg-slate-800 border border-slate-700 rounded-xl text-sm text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-emerald-500"
                   />
                 </div>
                 <div>
@@ -344,7 +344,7 @@ export default function Dashboard() {
                     min="1"
                     value={Number.isFinite(form.height) ? form.height : ""}
                     onChange={(e) => setForm({ ...form, height: +e.target.value })}
-                    className="w-full px-3 py-2.5 bg-input-background border border-border rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary"
+                    className="w-full px-3 py-2.5 bg-slate-800 border border-slate-700 rounded-xl text-sm text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-emerald-500"
                   />
                 </div>
                 <div>
@@ -355,7 +355,7 @@ export default function Dashboard() {
                     min="1"
                     value={Number.isFinite(form.bpSystolic) ? form.bpSystolic : ""}
                     onChange={(e) => setForm({ ...form, bpSystolic: +e.target.value })}
-                    className="w-full px-3 py-2.5 bg-input-background border border-border rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary"
+                    className="w-full px-3 py-2.5 bg-slate-800 border border-slate-700 rounded-xl text-sm text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-emerald-500"
                   />
                 </div>
                 <div>
@@ -366,7 +366,7 @@ export default function Dashboard() {
                     min="1"
                     value={Number.isFinite(form.bpDiastolic) ? form.bpDiastolic : ""}
                     onChange={(e) => setForm({ ...form, bpDiastolic: +e.target.value })}
-                    className="w-full px-3 py-2.5 bg-input-background border border-border rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary"
+                    className="w-full px-3 py-2.5 bg-slate-800 border border-slate-700 rounded-xl text-sm text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-emerald-500"
                   />
                 </div>
                 <div>
@@ -377,7 +377,7 @@ export default function Dashboard() {
                     min="1"
                     value={Number.isFinite(form.sugar) ? form.sugar : ""}
                     onChange={(e) => setForm({ ...form, sugar: +e.target.value })}
-                    className="w-full px-3 py-2.5 bg-input-background border border-border rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary"
+                   className="w-full px-3 py-2.5 bg-slate-800 border border-slate-700 rounded-xl text-sm text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-emerald-500"
                   />
                 </div>
               </div>

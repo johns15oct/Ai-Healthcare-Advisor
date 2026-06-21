@@ -90,9 +90,9 @@ function buildSuggestions(latest: VitalReading): Suggestion[] {
 }
 
 const COLOR_STYLES: Record<string, { border: string; bg: string; icon: string; badge: string }> = {
-  green: { border: "border-green-200", bg: "bg-green-50", icon: "text-green-600", badge: "bg-green-100 text-green-700" },
-  amber: { border: "border-amber-200", bg: "bg-amber-50", icon: "text-amber-600", badge: "bg-amber-100 text-amber-700" },
-  red: { border: "border-red-200", bg: "bg-red-50", icon: "text-red-600", badge: "bg-red-100 text-red-700" },
+  green: { border: "border-green-200", bg: "bg-emerald-500/10", icon: "text-green-600", badge: "bg-green-100 text-green-700" },
+  amber: { border: "border-amber-200", bg: "bg-amber-500/10", icon: "text-amber-600", badge: "bg-amber-100 text-amber-700" },
+  red: { border: "border-red-200", bg: "bg-red-500/10", icon: "text-red-600", badge: "bg-red-100 text-red-700" },
 };
 
 const BLANK: Omit<VitalReading, "id"> = {
@@ -134,16 +134,16 @@ export default function HealthTracker() {
   const sorted = [...readings].sort((a, b) => b.date.localeCompare(a.date));
 
   return (
-    <div className="space-y-6 max-w-5xl">
+  <div className="space-y-8 max-w-6xl mx-auto min-h-screen bg-slate-950 p-6 rounded-3xl">
       {/* Header */}
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-xl font-bold text-foreground">Health Tracker</h1>
-          <p className="text-sm text-muted-foreground mt-0.5">{readings.length} readings logged</p>
+          <h1 className="text-3xl font-bold tracking-tight text-white">Health Tracker</h1>
+          <p className="text-sm text-slate-400 mt-2">{readings.length} readings logged</p>
         </div>
         <button
           onClick={() => setAddOpen(true)}
-          className="flex items-center gap-2 bg-primary hover:bg-green-700 text-white px-4 py-2.5 rounded-xl text-sm font-semibold shadow-md shadow-green-200 transition-all"
+className="flex items-center gap-2 bg-emerald-500 hover:bg-emerald-600 text-white px-5 py-3 rounded-2xl font-semibold shadow-xl transition-all hover:scale-105"
         >
           <Plus size={16} />
           Log Reading
@@ -151,14 +151,14 @@ export default function HealthTracker() {
       </div>
 
       {/* Table */}
-      {error && <div className="rounded-xl border border-red-200 bg-red-50 px-4 py-3 text-xs text-red-700">{error}</div>}
-      <div className="bg-white rounded-2xl border border-border shadow-sm overflow-hidden">
+      {error && <div className="rounded-2xl border border-red-500/30 bg-red-500/10 px-4 py-3 text-sm text-red-300">{error}</div>}
+      <div className="">
         <div className="overflow-x-auto">
           <table className="w-full text-sm">
             <thead>
-              <tr className="bg-secondary border-b border-border">
+              <tr className="bg-slate-950 border-b border-slate-800">
                 {["Date", "Weight (kg)", "Height (cm)", "BP (mmHg)", "Sugar (mg/dL)", "BMI", "Actions"].map((h) => (
-                  <th key={h} className="px-4 py-3 text-left text-xs font-semibold text-muted-foreground whitespace-nowrap">
+                  <th key={h} className="px-4 py-3 text-left text-xs font-semibold text-slate-400 uppercase tracking-wider whitespace-nowrap">
                     {h}
                   </th>
                 ))}
@@ -166,16 +166,16 @@ export default function HealthTracker() {
             </thead>
             <tbody>
               {!loading && sorted.length === 0 && (
-                <tr><td colSpan={7} className="px-4 py-12 text-center text-sm text-muted-foreground">No readings saved. Log your first reading to create health trends.</td></tr>
+                <tr><td colSpan={7} className="px-4 py-12 text-center text-sm text-slate-400 uppercase tracking-wider">No readings saved. Log your first reading to create health trends.</td></tr>
               )}
               {loading && (
-                <tr><td colSpan={7} className="px-4 py-12 text-center text-sm text-muted-foreground">Loading Firebase readings...</td></tr>
+                <tr><td colSpan={7} className="px-4 py-12 text-center text-sm text-slate-400 uppercase tracking-wider">Loading Firebase readings...</td></tr>
               )}
               {sorted.map((r) =>
                 editId === r.id ? (
                   <tr key={r.id} className="bg-secondary/50 border-b border-border">
                     <td className="px-4 py-2">
-                      <input type="date" value={editForm.date} onChange={(e) => setEditForm({ ...editForm, date: e.target.value })} className="w-full px-2 py-1.5 bg-white border border-border rounded-lg text-xs" />
+                      <input type="date" value={editForm.date} onChange={(e) => setEditForm({ ...editForm, date: e.target.value })} className="w-full px-2 py-1.5 bg-slate-900 border border-slate-700 bg-slate-800 text-slate-300 rounded-lg text-xs" />
                     </td>
                     {(["weight", "height", "bpSystolic", "bpDiastolic", "sugar"] as const).map((field) => (
                       <td key={field} className="px-4 py-2">
@@ -184,11 +184,11 @@ export default function HealthTracker() {
                           step={field === "weight" ? "0.1" : "1"}
                           value={editForm[field]}
                           onChange={(e) => setEditForm({ ...editForm, [field]: +e.target.value })}
-                          className="w-20 px-2 py-1.5 bg-white border border-border rounded-lg text-xs"
+                          className="w-20 px-2 py-1.5 bg-slate-900 border border-slate-700 bg-slate-800 text-slate-300 rounded-lg text-xs"
                         />
                       </td>
                     ))}
-                    <td className="px-4 py-2 text-xs text-muted-foreground">
+                    <td className="px-4 py-2 text-xs text-slate-400 uppercase tracking-wider">
                       {bmi(editForm.weight, editForm.height).toFixed(1)}
                     </td>
                     <td className="px-4 py-2">
@@ -196,26 +196,26 @@ export default function HealthTracker() {
                         <button onClick={() => saveEdit(r.id)} className="p-1.5 text-primary hover:bg-primary/10 rounded-lg transition-colors" title="Save">
                           <Save size={14} />
                         </button>
-                        <button onClick={() => setEditId(null)} className="p-1.5 text-muted-foreground hover:bg-muted rounded-lg transition-colors" title="Cancel">
+                        <button onClick={() => setEditId(null)} className="p-1.5 text-slate-400 uppercase tracking-wider hover:bg-muted rounded-lg transition-colors" title="Cancel">
                           <X size={14} />
                         </button>
                       </div>
                     </td>
                   </tr>
                 ) : (
-                  <tr key={r.id} className="border-b border-border hover:bg-muted/30 transition-colors">
-                    <td className="px-4 py-3 text-xs font-medium text-foreground">{r.date}</td>
-                    <td className="px-4 py-3 text-foreground">{r.weight}</td>
-                    <td className="px-4 py-3 text-foreground">{r.height}</td>
-                    <td className="px-4 py-3 text-foreground">{r.bpSystolic}/{r.bpDiastolic}</td>
-                    <td className="px-4 py-3 text-foreground">{r.sugar}</td>
-                    <td className="px-4 py-3 text-foreground">{bmi(r.weight, r.height).toFixed(1)}</td>
+                  <tr key={r.id} className="border-b border-slate-800 hover:bg-slate-800/50 transition-all">
+                    <td className="px-4 py-3 text-xs font-medium text-white">{r.date}</td>
+                    <td className="px-4 py-3 text-white">{r.weight}</td>
+                    <td className="px-4 py-3 text-white">{r.height}</td>
+                    <td className="px-4 py-3 text-white">{r.bpSystolic}/{r.bpDiastolic}</td>
+                    <td className="px-4 py-3 text-white">{r.sugar}</td>
+                    <td className="px-4 py-3 text-white">{bmi(r.weight, r.height).toFixed(1)}</td>
                     <td className="px-4 py-3">
                       <div className="flex gap-1.5">
-                        <button onClick={() => startEdit(r)} className="p-1.5 text-muted-foreground hover:text-primary hover:bg-primary/10 rounded-lg transition-colors" title="Edit">
+                        <button onClick={() => startEdit(r)} className="p-1.5 text-slate-400 uppercase tracking-wider hover:text-primary hover:bg-primary/10 rounded-lg transition-colors" title="Edit">
                           <Pencil size={14} />
                         </button>
-                        <button onClick={() => deleteReading(r.id)} className="p-1.5 text-muted-foreground hover:text-destructive hover:bg-red-50 rounded-lg transition-colors" title="Delete">
+                        <button onClick={() => deleteReading(r.id)} className="p-1.5 text-slate-400 uppercase tracking-wider hover:text-destructive hover:bg-red-50 rounded-lg transition-colors" title="Delete">
                           <Trash2 size={14} />
                         </button>
                       </div>
@@ -242,21 +242,21 @@ export default function HealthTracker() {
             return (
               <div key={i} className={`rounded-2xl border ${cs.border} ${cs.bg} p-5`}>
                 <div className="flex items-start gap-3 mb-3">
-                  <div className={`p-2 bg-white rounded-xl ${cs.icon} flex-shrink-0 shadow-sm`}>{s.icon}</div>
+                  <div className={`p-2 bg-slate-900 rounded-xl ${cs.icon} flex-shrink-0 shadow-sm`}>{s.icon}</div>
                   <div>
-                    <h4 className="font-semibold text-foreground text-sm">{s.title}</h4>
+                    <h4 className="font-semibold text-white text-sm">{s.title}</h4>
                     <p className={`text-xs mt-0.5 ${cs.badge.split(" ")[1]} font-medium`}>{s.trigger}</p>
                   </div>
                 </div>
                 <ul className="space-y-1.5 ml-11">
                   {s.tips.map((tip, j) => (
-                    <li key={j} className="flex gap-2 text-sm text-foreground/80">
+                    <li key={j} className="flex gap-2 text-sm text-white/80">
                       <span className="text-primary mt-0.5 flex-shrink-0">•</span>
                       {tip}
                     </li>
                   ))}
                 </ul>
-                <p className="text-xs text-muted-foreground mt-3 ml-11 italic">
+                <p className="text-xs text-slate-400 uppercase tracking-wider mt-3 ml-11 italic">
                   ⚕️ Consult your doctor before making significant dietary or lifestyle changes.
                 </p>
               </div>
@@ -268,45 +268,45 @@ export default function HealthTracker() {
       {/* Add Modal */}
       {addOpen && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 backdrop-blur-sm p-4">
-          <div className="bg-white rounded-2xl shadow-2xl w-full max-w-md p-6">
+          <div className="bg-slate-900 rounded-2xl shadow-2xl w-full max-w-md p-6">
             <div className="flex items-center justify-between mb-5">
-              <h3 className="font-bold text-foreground">Log New Reading</h3>
-              <button onClick={() => setAddOpen(false)} className="text-muted-foreground hover:text-foreground p-1 rounded-lg hover:bg-muted">
+              <h3 className="font-bold text-white">Log New Reading</h3>
+              <button onClick={() => setAddOpen(false)} className="text-slate-400 uppercase tracking-wider hover:text-white p-1 rounded-lg hover:bg-muted">
                 <X size={20} />
               </button>
             </div>
             <form onSubmit={handleAdd} className="space-y-4">
               <div className="grid grid-cols-2 gap-4">
                 <div>
-                  <label className="block text-xs font-medium text-muted-foreground mb-1.5">Date</label>
-                  <input required type="date" value={addForm.date} onChange={(e) => setAddForm({ ...addForm, date: e.target.value })} className="w-full px-3 py-2.5 bg-input-background border border-border rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary" />
+                  <label className="block text-xs font-medium text-slate-400 uppercase tracking-wider mb-1.5">Date</label>
+                  <input required type="date" value={addForm.date} onChange={(e) => setAddForm({ ...addForm, date: e.target.value })} className="w-full px-3 py-2.5 bg-slate-950 border border-slate-700 text-white rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary" />
                 </div>
                 <div>
-                  <label className="block text-xs font-medium text-muted-foreground mb-1.5">Weight (kg)</label>
-                  <input required min="1" type="number" step="0.1" value={Number.isFinite(addForm.weight) ? addForm.weight : ""} onChange={(e) => setAddForm({ ...addForm, weight: +e.target.value })} className="w-full px-3 py-2.5 bg-input-background border border-border rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary" />
+                  <label className="block text-xs font-medium text-slate-400 uppercase tracking-wider">Weight (kg)</label>
+                  <input required min="1" type="number" step="0.1" value={Number.isFinite(addForm.weight) ? addForm.weight : ""} onChange={(e) => setAddForm({ ...addForm, weight: +e.target.value })} className="w-full px-3 py-2.5 bg-slate-950 border border-slate-700 text-white rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary" />
                 </div>
                 <div>
-                  <label className="block text-xs font-medium text-muted-foreground mb-1.5">Height (cm)</label>
-                  <input required min="1" type="number" value={Number.isFinite(addForm.height) ? addForm.height : ""} onChange={(e) => setAddForm({ ...addForm, height: +e.target.value })} className="w-full px-3 py-2.5 bg-input-background border border-border rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary" />
+                  <label className="block text-xs font-medium text-slate-400 uppercase tracking-wider mb-1.5">Height (cm)</label>
+                  <input required min="1" type="number" value={Number.isFinite(addForm.height) ? addForm.height : ""} onChange={(e) => setAddForm({ ...addForm, height: +e.target.value })} className="w-full px-3 py-2.5 bg-slate-950 border border-slate-700 text-white rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary" />
                 </div>
                 <div>
-                  <label className="block text-xs font-medium text-muted-foreground mb-1.5">Systolic (mmHg)</label>
-                  <input required min="1" type="number" value={Number.isFinite(addForm.bpSystolic) ? addForm.bpSystolic : ""} onChange={(e) => setAddForm({ ...addForm, bpSystolic: +e.target.value })} className="w-full px-3 py-2.5 bg-input-background border border-border rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary" />
+                  <label className="block text-xs font-medium text-slate-400 uppercase tracking-wider mb-1.5">Systolic (mmHg)</label>
+                  <input required min="1" type="number" value={Number.isFinite(addForm.bpSystolic) ? addForm.bpSystolic : ""} onChange={(e) => setAddForm({ ...addForm, bpSystolic: +e.target.value })} className="w-full px-3 py-2.5 bg-slate-950 border border-slate-700 text-white rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary" />
                 </div>
                 <div>
-                  <label className="block text-xs font-medium text-muted-foreground mb-1.5">Diastolic (mmHg)</label>
-                  <input required min="1" type="number" value={Number.isFinite(addForm.bpDiastolic) ? addForm.bpDiastolic : ""} onChange={(e) => setAddForm({ ...addForm, bpDiastolic: +e.target.value })} className="w-full px-3 py-2.5 bg-input-background border border-border rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary" />
+                  <label className="block text-xs font-medium text-slate-400 uppercase tracking-wider mb-1.5">Diastolic (mmHg)</label>
+                  <input required min="1" type="number" value={Number.isFinite(addForm.bpDiastolic) ? addForm.bpDiastolic : ""} onChange={(e) => setAddForm({ ...addForm, bpDiastolic: +e.target.value })} className="w-full px-3 py-2.5 bg-slate-950 border border-slate-700 text-white rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary" />
                 </div>
                 <div>
-                  <label className="block text-xs font-medium text-muted-foreground mb-1.5">Sugar (mg/dL)</label>
-                  <input required min="1" type="number" value={Number.isFinite(addForm.sugar) ? addForm.sugar : ""} onChange={(e) => setAddForm({ ...addForm, sugar: +e.target.value })} className="w-full px-3 py-2.5 bg-input-background border border-border rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary" />
+                  <label className="block text-xs font-medium text-slate-400 uppercase tracking-wider mb-1.5">Sugar (mg/dL)</label>
+                  <input required min="1" type="number" value={Number.isFinite(addForm.sugar) ? addForm.sugar : ""} onChange={(e) => setAddForm({ ...addForm, sugar: +e.target.value })} className="w-full px-3 py-2.5 bg-slate-950 border border-slate-700 text-white rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary" />
                 </div>
               </div>
               <div className="flex gap-3 pt-1">
-                <button type="button" onClick={() => setAddOpen(false)} className="flex-1 border border-border py-2.5 rounded-xl text-sm font-medium text-muted-foreground hover:bg-muted">
+                <button type="button" onClick={() => setAddOpen(false)} className="flex-1 border border-slate-700 py-2.5 rounded-xl text-sm font-medium text-slate-400 uppercase tracking-wider hover:bg-slate-800">
                   Cancel
                 </button>
-                <button type="submit" className="flex-1 bg-primary hover:bg-green-700 text-white py-2.5 rounded-xl text-sm font-semibold transition-all">
+                <button type="submit" className="flex-1 bg-emerald-500 hover:bg-emerald-600 shadow-xl text-white py-2.5 rounded-xl text-sm font-semibold transition-all">
                   Save
                 </button>
               </div>

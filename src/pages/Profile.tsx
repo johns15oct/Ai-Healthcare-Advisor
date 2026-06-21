@@ -33,7 +33,7 @@ export default function Profile() {
         value={form[key]}
         onChange={(e) => setForm({ ...form, [key]: e.target.value })}
         placeholder={placeholder}
-        className="w-full px-4 py-2.5 bg-input-background border border-border rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary transition-colors"
+        className="w-full px-4 py-2.5 bg-[#0f172a] border border-gray-700 rounded-xl text-sm text-white placeholder:text-gray-500 focus:outline-none focus:ring-2 focus:ring-emerald-500/30 focus:border-emerald-500 transition-all"
       />
     </div>
   );
@@ -48,7 +48,7 @@ export default function Profile() {
       </div>
 
       {/* Avatar card */}
-      <div className="bg-white rounded-2xl border border-border shadow-sm p-6 flex items-center gap-5">
+      <div className="bg-[#111827] rounded-2xl border border-gray-700 shadow-lg p-6 flex items-center gap-5">
         <div className="w-16 h-16 bg-primary/10 rounded-2xl flex items-center justify-center flex-shrink-0">
           <span className="text-primary text-2xl font-bold">{user?.name[0]}</span>
         </div>
@@ -64,7 +64,10 @@ export default function Profile() {
       </div>
 
       {/* Form */}
-      <form onSubmit={handleSave} className="bg-white rounded-2xl border border-border shadow-sm p-6 space-y-5">
+      <form
+  onSubmit={handleSave}
+  className="bg-[#111827] rounded-2xl border border-gray-700 shadow-lg p-6 space-y-5"
+>
         <div className="flex items-center gap-2 pb-2 border-b border-border">
           <User size={16} className="text-primary" />
           <h4 className="font-semibold text-foreground">Health Information</h4>
@@ -81,7 +84,7 @@ export default function Profile() {
             <select
               value={form.gender}
               onChange={(e) => setForm({ ...form, gender: e.target.value })}
-              className="w-full px-4 py-2.5 bg-input-background border border-border rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary transition-colors appearance-none"
+              className="w-full px-4 py-2.5 bg-[#0f172a] border border-gray-700 rounded-xl text-sm text-white focus:outline-none focus:ring-2 focus:ring-emerald-500/30 focus:border-emerald-500 transition-all appearance-none"
             >
               {GENDER_OPTIONS.map((g) => (
                 <option key={g} value={g}>{g}</option>
@@ -98,7 +101,7 @@ export default function Profile() {
             onChange={(e) => setForm({ ...form, allergies: e.target.value })}
             placeholder="e.g. Penicillin, shellfish, latex (leave blank if none)"
             rows={2}
-            className="w-full px-4 py-2.5 bg-input-background border border-border rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary transition-colors resize-none"
+            className="w-full px-4 py-2.5 bg-[#0f172a] border border-gray-700 rounded-xl text-sm text-white placeholder:text-gray-500 focus:outline-none focus:ring-2 focus:ring-emerald-500/30 focus:border-emerald-500 transition-all resize-none"
           />
         </div>
 
@@ -116,7 +119,7 @@ export default function Profile() {
         <div className="flex items-center gap-3 pt-1">
           <button
             type="submit"
-            className="flex items-center gap-2 bg-primary hover:bg-green-700 text-white px-6 py-2.5 rounded-xl text-sm font-semibold shadow-md shadow-green-200 transition-all"
+            className="flex items-center gap-2 bg-primary hover:bg-gradient-to-r from-emerald-500 to-cyan-500 hover:from-emerald-600 hover:to-cyan-600 text-white px-6 py-2.5 rounded-xl text-sm font-semibold shadow-md shadow-green-200 transition-all"
           >
             {saved ? <Check size={16} /> : <Save size={16} />}
             {saved ? "Saved!" : "Save Changes"}
@@ -131,7 +134,7 @@ export default function Profile() {
       </form>
 
       {/* Privacy note */}
-      <div className="bg-secondary rounded-2xl border border-border p-4 flex gap-3">
+      <div className="bg-[#111827] rounded-2xl border border-gray-700 p-4 flex gap-3">
         <AlertCircle size={16} className="text-primary flex-shrink-0 mt-0.5" />
         <p className="text-xs text-muted-foreground leading-relaxed">
           Your health profile is stored in your private Firebase user document. Configure and deploy the included

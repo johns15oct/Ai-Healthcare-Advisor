@@ -30,7 +30,7 @@ function DoctorCard({ doctor }: { doctor: Doctor }) {
   const colorIdx = doctor.id.charCodeAt(0) % avatarColors.length;
 
   return (
-    <div className="bg-white rounded-2xl border border-border shadow-sm p-5 hover:shadow-md hover:border-primary/30 transition-all flex flex-col gap-4">
+    <div className="bg-slate-900 rounded-2xl border border-border shadow-sm p-5 hover:shadow-md hover:border-primary/30 transition-all flex flex-col gap-4">
       <div className="flex items-start gap-4">
         <div className={`w-12 h-12 rounded-2xl flex items-center justify-center flex-shrink-0 font-bold text-sm ${avatarColors[colorIdx]}`}>
           {initials}
@@ -90,7 +90,7 @@ function DoctorCard({ doctor }: { doctor: Doctor }) {
 // TODO: connect to Google Maps / Places API
 // Replace this component with a real map (Leaflet, Google Maps, Mapbox) showing pinned doctor locations.
 // Example: import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
-function MapPlaceholder({ specialty }: { specialty: string }) {
+function MapPlaceholder() {
   const pins = [
     { x: 25, y: 40, label: "GP" },
     { x: 55, y: 25, label: "Cardio" },
@@ -102,7 +102,7 @@ function MapPlaceholder({ specialty }: { specialty: string }) {
   ];
 
   return (
-    <div className="bg-white rounded-2xl border border-border shadow-sm overflow-hidden">
+    <div className="bg-slate-900 rounded-2xl border border-border shadow-sm overflow-hidden">
       <div className="flex items-center justify-between px-5 py-4 border-b border-border">
         <div className="flex items-center gap-2">
           <Map size={16} className="text-primary" />
@@ -113,13 +113,19 @@ function MapPlaceholder({ specialty }: { specialty: string }) {
           Mock map — connect Maps API for live locations
         </div>
       </div>
-      <div
-        className="relative w-full h-52 overflow-hidden"
-        style={{
-          background: "linear-gradient(135deg, #e8f5e9 0%, #c8e6c9 30%, #a5d6a7 60%, #dcfce7 100%)",
-        }}
-      >
-        {/* Grid lines */}
+     <div
+  className="relative w-full h-[420px] overflow-hidden rounded-b-3xl bg-slate-100"
+  style={{
+    backgroundImage: `
+      linear-gradient(rgba(255,255,255,0.5) 2px, transparent 2px),
+      linear-gradient(90deg, rgba(255,255,255,0.5) 2px, transparent 2px),
+      linear-gradient(135deg,#f8fafc,#dbeafe,#dcfce7)
+    `,
+    backgroundSize: "80px 80px,80px 80px,100% 100%",
+  }}
+>
+    
+{/* Grid lines */}
         {[20, 40, 60, 80].map((p) => (
           <div key={`h${p}`} className="absolute w-full border-t border-green-200/60" style={{ top: `${p}%` }} />
         ))}
@@ -128,15 +134,17 @@ function MapPlaceholder({ specialty }: { specialty: string }) {
         ))}
 
         {/* Road-like paths */}
-        <svg className="absolute inset-0 w-full h-full" viewBox="0 0 100 100" preserveAspectRatio="none">
-          <path d="M0 50 Q25 45 50 50 T100 48" stroke="#b2dfdb" strokeWidth="2" fill="none" opacity="0.7" />
-          <path d="M30 0 Q35 30 30 50 T32 100" stroke="#b2dfdb" strokeWidth="1.5" fill="none" opacity="0.7" />
-          <path d="M60 20 Q65 40 68 60 Q70 80 65 100" stroke="#b2dfdb" strokeWidth="1.5" fill="none" opacity="0.5" />
-        </svg>
+       <div className="w-10 h-10 rounded-full bg-emerald-500 border-4 border-white shadow-xl flex items-center justify-center">
+  <MapPin size={18} className="text-white" />
+</div>
+
+<div className="mt-2 bg-white rounded-xl px-3 py-1 shadow-lg text-xs font-semibold text-slate-700">
+  Doctors
+</div>
 
         {/* You marker */}
         <div className="absolute" style={{ left: "50%", top: "50%", transform: "translate(-50%,-50%)" }}>
-          <div className="w-4 h-4 bg-blue-500 rounded-full border-2 border-white shadow-md flex items-center justify-center">
+          <div className="w-6 h-6 bg-blue-600 rounded-full border-4 border-white shadow-xl animate-pulse flex items-center justify-center">
             <div className="w-1.5 h-1.5 bg-white rounded-full" />
           </div>
           <div className="text-[8px] text-center mt-0.5 font-bold text-blue-600 whitespace-nowrap -translate-x-1/4">You</div>
@@ -152,7 +160,7 @@ function MapPlaceholder({ specialty }: { specialty: string }) {
             <div className="w-6 h-6 bg-primary rounded-full border-2 border-white shadow-md flex items-center justify-center">
               <MapPin size={10} className="text-white" />
             </div>
-            <div className="text-[7px] bg-white px-1.5 py-0.5 rounded-full shadow-sm mt-0.5 font-semibold text-primary whitespace-nowrap">
+            <div className="text-[7px] bg-slate-900 px-1.5 py-0.5 rounded-full shadow-sm mt-0.5 font-semibold text-primary whitespace-nowrap">
               {pin.label}
             </div>
           </div>
@@ -195,7 +203,7 @@ export default function FindDoctors() {
       </div>
 
       {/* Map */}
-      <MapPlaceholder specialty={specialty} />
+      <MapPlaceholder />
 
       {/* Doctor grid */}
       <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-4">
@@ -213,3 +221,4 @@ export default function FindDoctors() {
     </div>
   );
 }
+        
